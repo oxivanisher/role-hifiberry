@@ -1,7 +1,6 @@
 ---
-
 # ensure mounted boot
-- name: mount boot
+- name: Mount boot
   ansible.posix.mount:
     path: /boot
     state: mounted
@@ -9,61 +8,61 @@
     fstype: vfat
   changed_when: false
 
-- name: disable original audio in /boot/config.txt
+- name: Disable original audio in /boot/config.txt
   ansible.builtin.lineinfile:
     path: /boot/config.txt
-    regexp: 'dtparam=audio=on'
+    regexp: "dtparam=audio=on"
     line: "#dtparam=audio=on"
-    insertafter: '^# Enable audio (loads snd_bcm2835)'
-  notify: reboot required
+    insertafter: "^# Enable audio (loads snd_bcm2835)"
+  notify: Reboot required
   ignore_errors: "{{ ansible_check_mode }}"
 
-- name: configure /boot/config.txt file for hifi berry
+- name: Configure /boot/config.txt file for hifi berry
   ansible.builtin.lineinfile:
     path: /boot/config.txt
-    regexp: 'dtoverlay=hifiberry-dac'
+    regexp: "dtoverlay=hifiberry-dac"
     line: "dtoverlay=hifiberry-dac"
-    insertafter: '^#dtparam=audio=on'
-  notify: reboot required
+    insertafter: "^#dtparam=audio=on"
+  notify: Reboot required
   ignore_errors: "{{ ansible_check_mode }}"
 
-- name: deploy hifiberry modules file
+- name: Deploy hifiberry modules file
   ansible.builtin.copy:
     src: hifiberry.conf
     dest: /etc/modprobe.d/hifiberry.conf
     owner: root
     group: root
-    mode: '0644'
-  notify: reboot required
+    mode: "0644"
+  notify: Reboot required
 
-- name: disable module snd_soc_bcm2708
+- name: Disable module snd_soc_bcm2708
   ansible.builtin.lineinfile:
     path: /etc/modules
-    regexp: 'snd_soc_bcm2708'
+    regexp: "snd_soc_bcm2708"
     line: "#snd_soc_bcm2708"
-  notify: reboot required
+  notify: Reboot required
   ignore_errors: "{{ ansible_check_mode }}"
 
-- name: enable module bcm2708_dmaengine
+- name: Enable module bcm2708_dmaengine
   ansible.builtin.lineinfile:
     path: /etc/modules
-    regexp: 'bcm2708_dmaengine'
+    regexp: "bcm2708_dmaengine"
     line: "bcm2708_dmaengine"
-  notify: reboot required
+  notify: Reboot required
   ignore_errors: "{{ ansible_check_mode }}"
 
-- name: enable module snd_soc_pcm5102a
+- name: Enable module snd_soc_pcm5102a
   ansible.builtin.lineinfile:
     path: /etc/modules
-    regexp: 'snd_soc_pcm5102a'
+    regexp: "snd_soc_pcm5102a"
     line: "snd_soc_pcm5102a"
-  notify: reboot required
+  notify: Reboot required
   ignore_errors: "{{ ansible_check_mode }}"
 
-- name: disable module snd_soc_hifiberry_dac
+- name: Disable module snd_soc_hifiberry_dac
   ansible.builtin.lineinfile:
     path: /etc/modules
-    regexp: 'snd_soc_hifiberry_dac'
+    regexp: "snd_soc_hifiberry_dac"
     line: "#snd_soc_hifiberry_dac"
-  notify: reboot required
+  notify: Reboot required
   ignore_errors: "{{ ansible_check_mode }}"
