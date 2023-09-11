@@ -20,8 +20,8 @@
 - name: Configure /boot/config.txt file for hifi berry
   ansible.builtin.lineinfile:
     path: /boot/config.txt
-    regexp: "dtoverlay=hifiberry-dac"
-    line: "dtoverlay=hifiberry-dac"
+    regexp: "dtoverlay={{ hifiberry_dtoverlay }}"
+    line: "dtoverlay={{ hifiberry_dtoverlay }}"
     insertafter: "^#dtparam=audio=on"
   notify: Reboot required
   ignore_errors: "{{ ansible_check_mode }}"
