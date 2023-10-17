@@ -56,4 +56,5 @@ galaxy_info:
     #       Maximum 20 tags per role.
 
 dependencies:
-  - role: ansible.posix.mount
+  []
+  # - role: ansible.posix.mount
