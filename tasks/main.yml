@@ -1,25 +1,30 @@
 ---
 # ensure mounted boot
+- name: Override config.txt location for Raspberry Pi OS version before bookworm
+  ansible.builtin.set_fact:
+    hifiberry_config_dir: /boot
+  when: ansible_distribution_major_version | int < 12
+
 - name: Mount boot
   ansible.posix.mount:
-    path: /boot
+    path: "{{ hifiberry_config_dir }}"
     state: mounted
     src: /dev/mmcblk0p1
     fstype: vfat
   changed_when: false
 
-- name: Disable original audio in /boot/config.txt
+- name: Disable original audio in config.txt
   ansible.builtin.lineinfile:
-    path: /boot/config.txt
+    path: "{{ hifiberry_config_dir }}/config.txt"
     regexp: "dtparam=audio=on"
     line: "#dtparam=audio=on"
     insertafter: "^# Enable audio (loads snd_bcm2835)"
   notify: Reboot required
   ignore_errors: "{{ ansible_check_mode }}"
 
-- name: Configure /boot/config.txt file for hifi berry
+- name: Configure config.txt file for hifi berry
   ansible.builtin.lineinfile:
-    path: /boot/config.txt
+    path: "{{ hifiberry_config_dir }}/config.txt"
     regexp: "dtoverlay={{ hifiberry_dtoverlay }}"
     line: "dtoverlay={{ hifiberry_dtoverlay }}"
     insertafter: "^#dtparam=audio=on"
