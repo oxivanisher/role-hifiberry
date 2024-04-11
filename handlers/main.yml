@@ -3,3 +3,5 @@
 - name: Reboot required
   ansible.builtin.reboot:
     reboot_timeout: 300
+  become: true
+  become_user: root

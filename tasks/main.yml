@@ -12,6 +12,8 @@
     src: "{{ raspberry_pi_boot_dev }}"
     fstype: vfat
   changed_when: false
+  become: true
+  become_user: root
 
 - name: Disable original audio in config.txt
   ansible.builtin.lineinfile:
@@ -21,6 +23,8 @@
     insertafter: "^# Enable audio (loads snd_bcm2835)"
   notify: Reboot required
   ignore_errors: "{{ ansible_check_mode }}"
+  become: true
+  become_user: root
 
 - name: Configure config.txt file for hifi berry
   ansible.builtin.lineinfile:
@@ -30,6 +34,8 @@
     insertafter: "^#dtparam=audio=on"
   notify: Reboot required
   ignore_errors: "{{ ansible_check_mode }}"
+  become: true
+  become_user: root
 
 - name: Deploy hifiberry modules file
   ansible.builtin.copy:
@@ -39,6 +45,8 @@
     group: root
     mode: "0644"
   notify: Reboot required
+  become: true
+  become_user: root
 
 - name: Disable module snd_soc_bcm2708
   ansible.builtin.lineinfile:
@@ -47,6 +55,8 @@
     line: "#snd_soc_bcm2708"
   notify: Reboot required
   ignore_errors: "{{ ansible_check_mode }}"
+  become: true
+  become_user: root
 
 - name: Enable module bcm2708_dmaengine
   ansible.builtin.lineinfile:
@@ -55,6 +65,8 @@
     line: "bcm2708_dmaengine"
   notify: Reboot required
   ignore_errors: "{{ ansible_check_mode }}"
+  become: true
+  become_user: root
 
 - name: Enable module snd_soc_pcm5102a
   ansible.builtin.lineinfile:
@@ -63,6 +75,8 @@
     line: "snd_soc_pcm5102a"
   notify: Reboot required
   ignore_errors: "{{ ansible_check_mode }}"
+  become: true
+  become_user: root
 
 - name: Disable module snd_soc_hifiberry_dac
   ansible.builtin.lineinfile:
@@ -71,3 +85,5 @@
     line: "#snd_soc_hifiberry_dac"
   notify: Reboot required
   ignore_errors: "{{ ansible_check_mode }}"
+  become: true
+  become_user: root
