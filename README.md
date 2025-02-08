@@ -1,5 +1,6 @@
 hifiberry
 =========
+[![Ansible Lint](https://github.com/oxivanisher/role-hifiberry/actions/workflows/ansible-lint.yml/badge.svg)](https://github.com/oxivanisher/role-hifiberry/actions/workflows/ansible-lint.yml)
 
 Configure hifiberry addon for Raspberry Pi.
 
