@@ -1,3 +1,3 @@
 ---
 hifiberry_dtoverlay: hifiberry-dac
-raspberry_pi_boot_dev: /dev/mmcblk0p1
+hifiberry_rpi_boot_dev: /dev/mmcblk0p1
