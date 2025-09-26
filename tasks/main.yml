@@ -42,10 +42,32 @@
   become: true
   become_user: root
 
+- name: Configure config.txt file for hifi berry on RPi4
+  ansible.builtin.lineinfile:
+    path: "{{ hifiberry_config_dir }}/config.txt"
+    regexp: "dtoverlay=vc4-kms-v3d"
+    line: "dtoverlay=vc4-kms-v3d,noaudio"
+  notify: Reboot required
+  ignore_errors: "{{ ansible_check_mode }}"
+  become: true
+  become_user: root
+
 - name: Deploy hifiberry modules file
   ansible.builtin.copy:
     src: hifiberry.conf
     dest: /etc/modprobe.d/hifiberry.conf
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Reboot required
+  become: true
+  become_user: root
+
+# It is not clear if this is really required, it seems to work without it
+- name: Deploy hifiberry asound.conf
+  ansible.builtin.copy:
+    src: asound.conf
+    dest: /etc/asound.conf
     owner: root
     group: root
     mode: "0644"
